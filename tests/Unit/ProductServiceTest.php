@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use App\Services\ProductService;
 use App\Repositories\ProductRepositoryInterface;
 use App\Models\Product;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Mockery;
 
 class ProductServiceTest extends TestCase
@@ -18,7 +19,7 @@ class ProductServiceTest extends TestCase
 
     public function test_list_products_calls_repository()
     {
-        $paginator = \Mockery::mock(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class);
+        $paginator = Mockery::mock(LengthAwarePaginator::class);
 
         $repo = Mockery::mock(ProductRepositoryInterface::class);
         $repo->shouldReceive('paginate')
