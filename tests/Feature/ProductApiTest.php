@@ -16,7 +16,7 @@ class ProductApiTest extends TestCase
     {
         Product::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/v1/products');
+        $response = $this->getJson(route('products.index'));
 
         $response->assertStatus(200)
                  ->assertJsonStructure(['data']);
@@ -33,7 +33,7 @@ class ProductApiTest extends TestCase
             'price' => 100,
         ];
 
-        $response = $this->postJson('/api/v1/products', $payload);
+        $response = $this->postJson(route('products.store'), $payload);
 
         $response->assertStatus(201)
                 ->assertJsonFragment(['name' => 'Test Product']);
@@ -53,7 +53,7 @@ class ProductApiTest extends TestCase
     {
         $product = Product::factory()->create();
 
-        $response = $this->getJson("/api/v1/products/{$product->id}");
+        $response = $this->getJson(route('products.show', $product->id));
 
         $response->assertStatus(200)
                  ->assertJsonFragment(['id' => $product->id]);
@@ -66,7 +66,7 @@ class ProductApiTest extends TestCase
 
         $payload = ['name' => 'Updated Product'];
 
-        $response = $this->putJson("/api/v1/products/{$product->id}", $payload);
+        $response = $this->putJson(route('products.update', $product->id), $payload);
 
         $response->assertStatus(200)
                  ->assertJsonFragment(['name' => 'Updated Product']);
@@ -79,7 +79,7 @@ class ProductApiTest extends TestCase
     {
         $product = Product::factory()->create();
 
-        $response = $this->deleteJson("/api/v1/products/{$product->id}");
+        $response = $this->deleteJson(route('products.destroy', $product->id));
 
         $response->assertStatus(204);
 
