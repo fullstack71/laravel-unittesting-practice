@@ -41,9 +41,9 @@ class EloquentProductRepository implements ProductRepositoryInterface
         if (isset($data['categories'])) $relations['categories'] = $data['categories'];
         if (isset($data['tags'])) $relations['tags'] = $data['tags'];
 
-        $productData = array_filter($data, function($k){
-            return !in_array($k,['categories','tags','variations','discounts']);
-        }, ARRAY_FILTER_USE_KEY);
+        $productData = collect($data)
+                        ->except(['categories','tags','variations','discounts'])
+                        ->toArray();
 
         $product = Product::create($productData);
 
@@ -76,9 +76,9 @@ class EloquentProductRepository implements ProductRepositoryInterface
         if (isset($data['categories'])) $relations['categories'] = $data['categories'];
         if (isset($data['tags'])) $relations['tags'] = $data['tags'];
 
-        $productData = array_filter($data, function($k){
-            return !in_array($k,['categories','tags','variations','discounts']);
-        }, ARRAY_FILTER_USE_KEY);
+        $productData = collect($data)
+                        ->except(['categories','tags','variations','discounts'])
+                        ->toArray();
 
         $product->update($productData);
 
